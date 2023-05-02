@@ -15,6 +15,7 @@
 	<script src="../build/pedigreejs.v3.0.0-rc1.min.js"></script>
 
 	<style>
+
 		body {
 		    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 		    font-size: 14px;
@@ -49,13 +50,15 @@
 			overflow: auto;word-wrap: normal;
 			border-radius: 4px;
 		}
-		#history_ex1 {
+		#history_ex2 {
 			padding: 10px;
 		}
 		.text-center {
 			text-align: center;
 			padding: 0 20px;
 		}
+		.addparents, .addpartner, .delete, .popup_selection, .settings, .addchild, .addsibling
+		{ display:none}
 	</style>
 
 	<script type="text/javascript">
@@ -63,47 +66,56 @@
 		var parent_width = $('#ped').parent().width();
 		var margin = ($(window).width()-parent_width > 10 ? 100 : 30);
 		var svg_width = (parent_width > 750 ? (parent_width*8/12 - margin) : parent_width- margin);
+		
 
+
+
+ 
+ 
+ 
 		var dataset = [
-			{"name": "m11", "display_name": "John",  "sex": "M", "diabetes_diagnosis_age": 55, "top_level": true},
-			{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true},
-			{"name": "m12", "display_name": "Jack", "sex": "M", "top_level": true},
-			{"name": "f12", "display_name": "Jill", "sex": "F", "top_level": true},
-			{"name": "m21", "display_name": "Jim", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
-			{"name": "f21", "display_name": "Jan", "sex": "F", "mother": "f12", "father": "m12", "age": 63},
-			{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
-		];
+			{"famid":"FAM1","display_name": "John","name":"m21","sex":"M","status":"0","father":"iHTp","mother":"DVEO","age":"67","yob":"1950","level":1},
+			{"famid":"FAM1","display_name": "Jane",	"name":"ch1","sex":"F","status":"0","proband":true,"father":"m21","mother":"f21","age":"41","yob":"1976"},
+			{"famid":"FAM1","display_name": "Mary",	"name":"f21","sex":"F","status":"0","father":"AhyZ","mother":"WJaM","age":"68","yob":"1949","breast_cancer_diagnosis_age":"67","ovarian_cancer_diagnosis_age":"63"},
+			{"famid":"FAM1","display_name": "Jill",	"name":"lXPO","sex":"F","status":"0","father":"UzQw","mother":"f21","age":"50","yob":"1967","breast_cancer_diagnosis_age":"49"},
+			{"famid":"FAM1","display_name": "Jim",	"name":"UzQw","sex":"M","status":"0","age":"72","yob":"1945","level":1,"noparents":true,"mother":"WJaM","father":"AhyZ"},
+			{"famid":"FAM1","display_name": "Joe",	"name":"iHTp","sex":"M","status":"1","age":"75","yob":"1955","breast_cancer_diagnosis_age":"72","breast_cancer2_diagnosis_age":"73","level":2,"top_level":true},
+			{"famid":"FAM1","display_name": "Ana",	"name":"DVEO","sex":"F","status":"0","age":"87","yob":"1930","level":2,"top_level":true},
+			{"famid":"FAM1","display_name": "Carl",	"name":"AhyZ","sex":"M","status":"0","age":"88","yob":"1929","level":2,"top_level":true},
+			{"famid":"FAM1","display_name": "Lia",	"name":"WJaM","sex":"F","status":"0","age":"85","yob":"1932","breast_cancer_diagnosis_age":"55","pancreatic_cancer_diagnosis_age":"53","level":2,"top_level":true}];
 		var opts = {
 			'targetDiv': 'ped',
-			'btn_target': 'history_ex1',
-			'store_type': 'session',
+			'store_type': 'local',
 			'width': svg_width,
 			'height': 500,
 			'symbol_size': 35,
-			'edit': true,
-			'diseases': [
-				{'type': 'diabetes', 'colour': '#F68F35'}
-			],
-			'DEBUG': (pedigreejs.pedigreejs_utils.urlParam('debug') === null ? false : true)
+			'edit': false,
+			'background': '#d3d3d3',
+			'node_background': '#fff',
+			'DEBUG': (pedigreejs.pedigreejs_utils.urlParam('debug') === null ? false : true),
+			'dataset': dataset,
+			labels: [],
 		};
-		$('#opts').append(JSON.stringify(opts, null, 4));
-		var local_dataset = pedigreejs.pedigreejs_pedcache.current(opts);
-		if (local_dataset !== undefined && local_dataset !== null) {
-			opts.dataset = local_dataset;
-		} else {
-			opts.dataset = dataset;
-		}
+		$('#opts').append(JSON.stringify(dataset, null, 4));
+
+		// var local_dataset = pedigreejs.pedigreejs_pedcache.current(opts);
+		// if (local_dataset !== undefined && local_dataset !== null) {
+		// 	opts.dataset = local_dataset;
+		// } else {
+		// 	opts.dataset = dataset;
+		// }
+
 		opts= pedigreejs.pedigreejs.build(opts);
-		$('#history_ex1').css('max-width', svg_width);
-		$('#history_ex1').css('margin', 'auto');
+		$('#history_ex2').css('max-width', svg_width);
+		$('#history_ex2').css('margin', 'auto');
 	});
 	</script>
 </head>
 <body>
 
 <div class="text-center">
-	<h2>Example 1</h2>
-	<label class="btn">
+	<h2>Ejemplo de Genograma</h2>
+	<!-- <label class="btn">
 		<input id="load" type="file" style="display: none;"/>Load
 	</label>	
 	<label class="btn">
@@ -117,18 +129,17 @@
 	</label>
 	<label class="btn">
 		<input id="png_download" type="button" style="display: none;">PNG
-	</label>
-	<div id='history_ex1'></div>
+	</label> -->
+	<div id='history_ex2'></div>
 	<div id="ped"></div>
 	<div id="node_properties"></div>
 </div>
 
 <div class="container">
 <br>
-<p>This is an example of defining diabetes as the disease. It is using the browsers
-<a href="https://www.w3schools.com/html/html5_webstorage.asp">session storage</a> (if supported by the web-browser)
-to record the history and it stores for one session, <i>i.e.</i>data is lost when the browser tab is closed.
-These are the options used:</p> 
+<p>Este ejemplo usa un componente estandar para ala visualización del Genograma utilizando una nomenclatura estandar para este tipo de diagramas.
+	El formato de entrada para los datos es JSON. Este formato es altamente configurable según la data que se proporcione y puede ser extendido usando javascript.
+	La data proporcionada para lograr esta visualización se muestra mas abajo: 
 <pre style="overflow: auto;word-wrap: normal;" id="opts"></pre>
 </div>
 
